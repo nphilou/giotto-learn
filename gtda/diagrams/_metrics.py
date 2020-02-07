@@ -35,9 +35,14 @@ def landscapes(diagrams, sampling, n_layers):
     return fibers
 
 
+def _gaussian_filter(heat, sigma):
+    return gaussian_filter(heat, sigma, mode="reflect")
+
+
 def _heat(heat, sampled_diag, sigma):
     _sample_image(heat, sampled_diag)  # modifies `heat` inplace
-    gaussian_filter(heat, sigma, mode="reflect")
+    heat = _gaussian_filter(heat, sigma, mode="reflect")
+    return heat
 
 
 def heats(diagrams, sampling, step_size, sigma):
@@ -49,8 +54,8 @@ def heats(diagrams, sampling, step_size, sigma):
     diagrams = np.array((diagrams - sampling[0]) / step_size,
                         dtype=int)
 
-    [_heat(heats_[i], sampled_diag, sigma)
-        for i, sampled_diag in enumerate(diagrams)]
+    heats_ = [_heat(heats_[i], sampled_diag, sigma)
+              for i, sampled_diag in enumerate(diagrams)]
 
     heats_ = heats_ - np.transpose(heats_, (0, 2, 1))
     heats_ = np.rot90(heats_, k=1, axes=(1, 2))
@@ -74,10 +79,12 @@ def persistence_images(diagrams, sampling, step_size, weights, sigma):
             (diagrams[:, :, axis] - sampling[0, axis]) / step_size[axis],
             dtype=int)
 
-    [_heat(persistence_images_[i], sampled_diag, sigma)
+    [_sample_image(persistence_images_[i], sampled_diag)
         for i, sampled_diag in enumerate(diagrams)]
 
     persistence_images_ *= weights / np.max(weights)
+    for idp, p in enumerate(persistence_images_):
+        persistence_images_[idp] = _gaussian_filter(p, sigma)
     persistence_images_ = np.rot90(persistence_images_, k=1, axes=(1, 2))
     return persistence_images_
 

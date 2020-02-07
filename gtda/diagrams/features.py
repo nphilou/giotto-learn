@@ -550,9 +550,10 @@ class PersistenceImage(BaseEstimator, TransformerMixin):
         The number of filtration parameter values, per available homology
         dimension, to sample during :meth:`fit`.
 
-    weight_function : fct 1d array -> ad array, default: p -> p
+    weight_function : fct 1d array -> ad array, default: ``None``
         Function mapping a 1d-array of persistence of the points of a diagram
-        to a 1d array of their weight.
+        to a 1d array of their weight. The default is  equivalent to
+        passing ``lambda x: x``.
 
     n_jobs : int or None, optional, default: ``None``
         The number of jobs to use for the computation. ``None`` means 1 unless
@@ -603,7 +604,7 @@ class PersistenceImage(BaseEstimator, TransformerMixin):
                         'weight_function': [types.FunctionType]}
 
     def __init__(self, sigma=1.0, n_bins=100,
-                 weight_function=lambda x: x,
+                 weight_function=None,
                  n_jobs=None):
         self.sigma = sigma
         self.n_bins = n_bins
@@ -645,7 +646,12 @@ class PersistenceImage(BaseEstimator, TransformerMixin):
             X, metric='persistence_image', n_bins=self.n_bins)
         self.samplings_ = {dim: s
                            for dim, s in self._samplings.items()}
-        self.weights_ = _calculate_weights(X, self.weight_function,
+
+        if self.weight_function is None:
+            weight_function = lambda x: x
+        else:
+            weight_function = self.weight_function
+        self.weights_ = _calculate_weights(X, weight_function,
                                            self._samplings)
         return self
 
