@@ -41,7 +41,7 @@ def _gaussian_filter(heat, sigma):
 
 def _heat(heat, sampled_diag, sigma):
     _sample_image(heat, sampled_diag)  # modifies `heat` inplace
-    heat = _gaussian_filter(heat, sigma, mode="reflect")
+    heat = _gaussian_filter(heat, sigma)
     return heat
 
 
