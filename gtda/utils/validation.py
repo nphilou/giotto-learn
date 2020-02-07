@@ -20,7 +20,7 @@ available_metrics = {
     'persistent_image': [('order', numbers.Number, (1, np.inf)),
                          ('n_values', int, (1, np.inf)),
                          ('sigma', numbers.Number, (0., np.inf)),
-                         ('_weight_function', types.FunctionType,
+                         ('effective_weight_function_', types.FunctionType,
                           None)]}
 
 available_metric_params = list(set(
