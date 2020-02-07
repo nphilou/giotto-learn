@@ -11,7 +11,7 @@ from sklearn.utils import gen_even_slices
 from sklearn.utils.validation import check_is_fitted
 
 from ._metrics import betti_curves, landscapes, heats, persistence_images
-from ._utils import _subdiagrams, _bin, _calculate_weights
+from ._utils import _subdiagrams, _sample, _calculate_weights
 from ..utils._docs import adapt_fit_transform_docs
 from ..utils.validation import validate_params, check_diagram
 
@@ -201,7 +201,7 @@ class BettiCurve(BaseEstimator, TransformerMixin):
         self.homology_dimensions_ = sorted(list(set(X[0, :, 2])))
         self._n_dimensions = len(self.homology_dimensions_)
 
-        self._samplings, _ = _bin(X, metric='betti', n_values=self.n_values)
+        self._samplings, _ = _sample(X, metric='betti', n_values=self.n_values)
         self.samplings_ = {dim: s
                            for dim, s in self._samplings.items()}
         return self
@@ -333,8 +333,8 @@ class PersistenceLandscape(BaseEstimator, TransformerMixin):
         self.homology_dimensions_ = sorted(list(set(X[0, :, 2])))
         self._n_dimensions = len(self.homology_dimensions_)
 
-        self._samplings, _ = _bin(X, metric="landscape",
-                                  n_values=self.n_values)
+        self._samplings, _ = _sample(X, metric="landscape",
+                                     n_values=self.n_values)
         self.samplings_ = {dim: s
                            for dim, s in self._samplings.items()}
 
@@ -481,7 +481,7 @@ class HeatKernel(BaseEstimator, TransformerMixin):
         self.homology_dimensions_ = sorted(list(set(X[0, :, 2])))
         self._n_dimensions = len(self.homology_dimensions_)
 
-        self._samplings, self._step_size = _bin(
+        self._samplings, self._step_size = _sample(
             X, metric='heat', n_values=self.n_values)
         self.samplings_ = {dim: s.flatten()
                            for dim, s in self._samplings.items()}
@@ -652,7 +652,7 @@ class PersistenceImage(BaseEstimator, TransformerMixin):
         self.homology_dimensions_ = sorted(list(set(X[0, :, 2])))
         self._n_dimensions = len(self.homology_dimensions_)
 
-        self._samplings, self._step_size = _bin(
+        self._samplings, self._step_size = _sample(
             X, metric='persistence_image', n_values=self.n_values)
         self.samplings_ = {dim: s
                            for dim, s in self._samplings.items()}

@@ -65,7 +65,7 @@ def _filter(Xs, filtered_homology_dimensions, cutoff):
     return Xf
 
 
-def _bin(X, metric, n_values=100, **kw_args):
+def _sample(X, metric, n_values=100, **kw_args):
     homology_dimensions = sorted(list(set(X[0, :, 2])))
     # For some vectorizations, we force the values to be the same + widest
     sub_diags = {dim: _subdiagrams(X, [dim], remove_dim=True)
