@@ -4,9 +4,6 @@
 import numpy as np
 import pytest
 from numpy.testing import assert_almost_equal
-from hypothesis import given
-from hypothesis.extra.numpy import arrays
-from hypothesis.strategies import integers, floats
 from sklearn.exceptions import NotFittedError
 
 from hypothesis import given
@@ -45,7 +42,7 @@ def test_pi_not_fitted():
 def test_pi_null(X):
     """Test that, if one trivial diagram (all pts on the diagonal) is provided,
     (along with a non-trivial one), then its pi is null"""
-    pi = PersistenceImage(sigma=1, n_bins=10)
+    pi = PersistenceImage(sigma=1, n_values=10)
     X = np.append(X, 1 + X[-1])
     diagrams = np.expand_dims(np.stack([X, X,
                                         np.zeros((X.shape[0],),
