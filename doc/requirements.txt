@@ -1,3 +1,2 @@
 sphinx-issues
 numpydoc
-./.. --install-option='--no-deps'
