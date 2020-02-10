@@ -13,7 +13,7 @@
 import os
 import sys
 
-from gtda import __version__
+#from gtda import __version__
 
 sys.path.insert(0, os.path.abspath('../'))
 
@@ -25,7 +25,7 @@ author = 'Guillaume Tauzin, Umberto Lupo, Matteo Caorsi, Anibal Medina, ' \
          'Lewis Tunstall'
 
 # The full version, including alpha/beta/rc tags
-release = __version__
+release = 0.1.4#__version__
 
 # -- General configuration ---------------------------------------------------
 
