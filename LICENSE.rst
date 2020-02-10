@@ -1,3 +1,6 @@
+License
+=======
+
 Copyright 2019 L2F SA.
 Licensed under the GNU Affero General Public License (the "License");
 you may not use this file except in compliance with the License.
