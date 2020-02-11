@@ -1,4 +1,4 @@
 sphinx-issues
 numpydoc
 
--e ../
+-e .
