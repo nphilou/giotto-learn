@@ -168,9 +168,10 @@ if on_rtd:
         def __getattr__(cls, name):
             return MagicMock()
 
-    MOCK_MODULES = ['sklearn', 'numpy', 'scipy', 'joblib', 'scikit-learn', 'python-igraph', 'matplotlib', 'plotly', 'ipywidgets']
-    INSTALL_REQUIRES_RTD = INSTALL_REQUIRES + EXTRAS_REQUIRE['doc']
-    sys.modules.update((mod_name, Mock()) for mod_name in INSTALL_REQUIRES_RTD)
+    INSTALL_REQUIRES_RTD = [f.split(' ')[0] for f in INSTALL_REQUIRES] + EXTRAS_REQUIRE['doc']
+    MOCK_MODULES = ['python-igraph', 'ipywidgets']
+    sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+    
     setup(name=DISTNAME,
           maintainer=MAINTAINER,
           maintainer_email=MAINTAINER_EMAIL,

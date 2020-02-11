@@ -13,10 +13,10 @@
 import os
 import sys
 
-sys.path.insert(0, os.path.abspath('../'))
+#sys.path.insert(0, os.path.abspath('../'))
 
-from gtda import __version__
-
+#from gtda import __version__
+exec('../setup.py develop')
 # -- Project information -----------------------------------------------------
 
 project = 'giotto-tda'
@@ -25,7 +25,7 @@ author = 'Guillaume Tauzin, Umberto Lupo, Matteo Caorsi, Anibal Medina, ' \
          'Lewis Tunstall'
 
 # The full version, including alpha/beta/rc tags
-release = __version__
+release = gtda.__version__
 
 # -- General configuration ---------------------------------------------------
 
