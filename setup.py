@@ -175,7 +175,7 @@ if on_rtd:
           classifiers=CLASSIFIERS,
           packages=find_packages(),
           keywords=KEYWORDS,
-          install_requires=INSTALL_REQUIRES + EXTRAS_REQUIRE['tests'] + EXTRAS_REQUIRE['doc'],
+          install_requires=INSTALL_REQUIRES + EXTRAS_REQUIRE['doc'],
           extras_require=EXTRAS_REQUIRE)
 else:
     setup(name=DISTNAME,
