@@ -160,7 +160,7 @@ class CMakeBuild(build_ext):
 
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 if on_rtd:
-    INSTALL_REQUIRES_RTD = ''
+    INSTALL_REQUIRES_RTD = INSTALL_REQUIRES + EXTRAS_REQUIRE['doc']
     setup(name=DISTNAME,
           maintainer=MAINTAINER,
           maintainer_email=MAINTAINER_EMAIL,
@@ -175,7 +175,7 @@ if on_rtd:
           classifiers=CLASSIFIERS,
           packages=find_packages(),
           keywords=KEYWORDS,
-          install_requires=INSTALL_REQUIRES + EXTRAS_REQUIRE['doc'],
+          install_requires=INSTALL_REQUIRES_RTD,
           extras_require=EXTRAS_REQUIRE)
 else:
     setup(name=DISTNAME,
