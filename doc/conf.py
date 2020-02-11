@@ -13,11 +13,9 @@
 import os
 import sys
 
-#sys.path.insert(0, os.path.abspath('../'))
+sys.path.insert(0, os.path.abspath('../'))
 
-#from gtda import __version__
-sys.argv = ['develop']
-execfile('../setup.py')
+from gtda import __version__
 # -- Project information -----------------------------------------------------
 
 project = 'giotto-tda'
