@@ -160,7 +160,17 @@ class CMakeBuild(build_ext):
 
 on_rtd = os.environ.get('READTHEDOCS') == 'True'
 if on_rtd:
+    import sys
+    from unittest.mock import MagicMock
+
+    class Mock(MagicMock):
+        @classmethod
+        def __getattr__(cls, name):
+            return MagicMock()
+
+    MOCK_MODULES = ['sklearn', 'numpy', 'scipy', 'joblib', 'scikit-learn', 'python-igraph', 'matplotlib', 'plotly', 'ipywidgets']
     INSTALL_REQUIRES_RTD = INSTALL_REQUIRES + EXTRAS_REQUIRE['doc']
+    sys.modules.update((mod_name, Mock()) for mod_name in INSTALL_REQUIRES_RTD)
     setup(name=DISTNAME,
           maintainer=MAINTAINER,
           maintainer_email=MAINTAINER_EMAIL,
