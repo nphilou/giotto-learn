@@ -157,22 +157,52 @@ class CMakeBuild(build_ext):
         subprocess.check_call(['cmake', '--build', '.'] + build_args,
                               cwd=self.build_temp)
 
+on_rtd = os.environ.get('READTHEDOCS') == 'True'
+if on_rtd:
+    import sys
+    from unittest.mock import MagicMock
 
-setup(name=DISTNAME,
-      maintainer=MAINTAINER,
-      maintainer_email=MAINTAINER_EMAIL,
-      description=DESCRIPTION,
-      license=LICENSE,
-      url=URL,
-      version=VERSION,
-      download_url=DOWNLOAD_URL,
-      long_description=LONG_DESCRIPTION,
-      long_description_content_type=LONG_DESCRIPTION_TYPE,
-      zip_safe=False,
-      classifiers=CLASSIFIERS,
-      packages=find_packages(),
-      keywords=KEYWORDS,
-      install_requires=INSTALL_REQUIRES,
-      extras_require=EXTRAS_REQUIRE,
-      ext_modules=[CMakeExtension('gtda')],
-      cmdclass=dict(build_ext=CMakeBuild))
+    class Mock(MagicMock):
+        @classmethod
+        def __getattr__(cls, name):
+            return MagicMock()
+
+    INSTALL_REQUIRES_RTD = [f.split(' ')[0] for f in INSTALL_REQUIRES] + EXTRAS_REQUIRE['doc']
+    MOCK_MODULES = ['python-igraph', 'ipywidgets']
+    sys.modules.update((mod_name, Mock()) for mod_name in MOCK_MODULES)
+    
+    setup(name=DISTNAME,
+          maintainer=MAINTAINER,
+          maintainer_email=MAINTAINER_EMAIL,
+          description=DESCRIPTION,
+          license=LICENSE,
+          url=URL,
+          version=VERSION,
+          download_url=DOWNLOAD_URL,
+          long_description=LONG_DESCRIPTION,
+          long_description_content_type=LONG_DESCRIPTION_TYPE,
+          zip_safe=False,
+          classifiers=CLASSIFIERS,
+          packages=find_packages(),
+          keywords=KEYWORDS,
+          install_requires=INSTALL_REQUIRES_RTD,
+          extras_require=EXTRAS_REQUIRE)
+else:
+    setup(name=DISTNAME,
+          maintainer=MAINTAINER,
+          maintainer_email=MAINTAINER_EMAIL,
+          description=DESCRIPTION,
+          license=LICENSE,
+          url=URL,
+          version=VERSION,
+          download_url=DOWNLOAD_URL,
+          long_description=LONG_DESCRIPTION,
+          long_description_content_type=LONG_DESCRIPTION_TYPE,
+          zip_safe=False,
+          classifiers=CLASSIFIERS,
+          packages=find_packages(),
+          keywords=KEYWORDS,
+          install_requires=INSTALL_REQUIRES,
+          extras_require=EXTRAS_REQUIRE,
+          ext_modules=[CMakeExtension('gtda')],
+          cmdclass=dict(build_ext=CMakeBuild))

@@ -3,9 +3,18 @@
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to giotto-tda's API reference!
+Giotto-tda's API reference!
 ======================================
 
+Guide
+^^^^^
+
+.. toctree::
+   :maxdepth: 2
+
+   source/Whatsnew
+   source/Roadmap
+   ../LICENSE
 
 :mod:`gtda.mapper`: Mapper
 ==========================

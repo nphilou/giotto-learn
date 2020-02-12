@@ -1,3 +1,6 @@
+License
+=======
+
 Copyright 2019 L2F SA.
 
 If you need a different distribution license, please contact the L2F team
